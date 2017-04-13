@@ -1,8 +1,7 @@
 from __future__ import unicode_literals
 
-from django.urls import reverse
-from django.views.generic import FormView, TemplateView
 from django.shortcuts import redirect
+from django.views.generic import FormView, TemplateView
 
 from .forms import UploadForm
 

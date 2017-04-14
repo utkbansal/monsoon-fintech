@@ -19,6 +19,11 @@ class PDFToCSVConverter(object):
         # Split columns that are clubbed together
         self.data_frame['2016.1'] = self.data_frame['2016 Particulars'].apply(self.get_amount)
         self.data_frame['Particulars.1'] = self.data_frame['2016 Particulars'].apply(self.get_text)
+        # Removing the merged columns and repositioning the 2 new ones into its place
+        del self.data_frame['2016 Particulars']
+        cols = self.data_frame.columns.tolist()
+        cols = cols[:2] + cols[-2:] + cols[2:5]
+        self.data_frame = self.data_frame[cols]
 
     def write(self, path='data/outfile.csv'):
         self.remove_blank_columns()
@@ -45,6 +50,6 @@ class PDFToCSVConverter(object):
 
 if __name__ == '__main__':
     # path = input("Enter the absolute path to the pdf file")
-    path = '/Users/utkbansal/Code/MonsoonFintech/part1/data/Balsheet.pdf'
+    path = '/Users/utkbansal/Downloads/parsing/Balsheet.pdf'
     converter = PDFToCSVConverter(path)
     converter.write()

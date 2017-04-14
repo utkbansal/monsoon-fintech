@@ -7,8 +7,8 @@ from django.core.files.base import ContentFile
 from django.shortcuts import render
 from django.views.generic import FormView, TemplateView
 
-from part1.parse import PDFToCSVConverter
 from .forms import UploadForm
+from .parser import PDFToCSVConverter
 
 
 class UploadView(FormView):

@@ -20,11 +20,11 @@ class PDFToCSVConverter(object):
         self.data_frame['2016.1'] = self.data_frame['2016 Particulars'].apply(self.get_amount)
         self.data_frame['Particulars.1'] = self.data_frame['2016 Particulars'].apply(self.get_text)
 
-    def write(self, name='data/outfile.csv'):
+    def write(self, path='data/outfile.csv'):
         self.remove_blank_columns()
         self.fix_columns_names()
         self.split_columns()
-        self.data_frame.to_csv(name)
+        self.data_frame.to_csv(path)
 
     @staticmethod
     def get_amount(value):

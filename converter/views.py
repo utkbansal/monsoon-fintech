@@ -25,6 +25,8 @@ class UploadView(FormView):
         else:
             return self.form_invalid(form)
 
+    # TODO: Can take care of an invalid form
+
     def form_valid(self, form):
         pdf = form.save()
         converter = PDFToCSVConverter(pdf.file.path)
@@ -35,7 +37,16 @@ class UploadView(FormView):
         name = str(uuid.uuid4()) + '.csv'
         pdf.csv.save(name, ContentFile(output.read()))
         pdf.save()
-        return render(self.request, 'result.html', context={'download': pdf.csv.url})
+
+        year = Year.objects.filter(value=form.cleaned_data['query_year']).first()
+        data = Data.objects.filter(year=year, variable__exact=form.cleaned_data['query_variable']).first()
+
+        if year is None or data is None:
+            response = "Value not found"
+        else:
+            response = "Value of " + form.cleaned_data['query_variable'] + " is " + data.amount
+
+        return render(self.request, 'result.html', context={'download': pdf.csv.url, 'value': response})
 
     def save_file_contents(self, data):
         """
@@ -55,7 +66,5 @@ class UploadView(FormView):
             print(value)
             data_objects.append(Data(amount=value[1], year=year_2015, variable=value[0]))
             data_objects.append(Data(amount=value[2], year=year_2016, variable=value[0]))
-
-        # print(data_objects)
 
         Data.objects.bulk_create(data_objects)

@@ -2,8 +2,9 @@
 
 {% block content %}
     <h1>
-        results here!
+        Results here!
     </h1>
+    {{ value }}
     {% if download %}
         <button><a href="{{ download }}" download="outfile.csv">Download CSV</a></button>
     {% endif %}

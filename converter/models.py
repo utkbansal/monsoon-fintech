@@ -4,6 +4,8 @@ from __future__ import unicode_literals
 from django.db import models
 
 
+# TODO: Can add unique constrains and add indexes for better performance
+
 class Year(models.Model):
     value = models.CharField(max_length=4)
 

@@ -29,6 +29,8 @@ class UploadView(FormView):
 
     def form_valid(self, form):
         pdf = form.save()
+
+        # Generate and save CSV file
         converter = PDFToCSVConverter(pdf.file.path)
         self.save_file_contents(converter.cleaned_data)
         output = StringIO()
@@ -38,6 +40,9 @@ class UploadView(FormView):
         pdf.csv.save(name, ContentFile(output.read()))
         pdf.save()
 
+        # Perform the search
+
+        # NOTE: have done .first() on the next 2 queries because there can be duplicate data
         year = Year.objects.filter(value=form.cleaned_data['query_year']).first()
         data = Data.objects.filter(year=year, variable__exact=form.cleaned_data['query_variable']).first()
 

@@ -7,6 +7,7 @@ class PDFToCSVConverter(object):
     def __init__(self, path):
         self.path = path
         # TODO: Check for existence of the file and permissions to read it
+        # TODO: Wpar this in a try-catch block. This can fail.
         self.data_frame = read_pdf_table(path)
         self.cleaned_data = []
         self.clean_dataframe()

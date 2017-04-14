@@ -1,8 +1,13 @@
 from __future__ import unicode_literals
 
-from django.shortcuts import redirect
+import uuid
+from StringIO import StringIO
+
+from django.core.files.base import ContentFile
+from django.shortcuts import render
 from django.views.generic import FormView, TemplateView
 
+from part1.parse import PDFToCSVConverter
 from .forms import UploadForm
 
 
@@ -17,15 +22,18 @@ class UploadView(FormView):
         if form.is_valid():
             return self.form_valid(form)
         else:
-            print(form.errors)
             return self.form_invalid(form)
 
     def form_valid(self, form):
-        print('valid form')
-        return redirect(self.success_url)
-
-    def form_invalid(self, form):
-        print form.errors
+        pdf = form.save()
+        converter = PDFToCSVConverter(pdf.file.path)
+        output = StringIO()
+        converter.write(output)
+        output.seek(0)
+        name = str(uuid.uuid4()) + '.csv'
+        pdf.csv.save(name, ContentFile(output.read()))
+        pdf.save()
+        return render(self.request, 'result.html', context={'download': pdf.csv.url})
 
 
 class ResultView(TemplateView):

@@ -4,6 +4,6 @@ from .views import UploadView, ResultView
 
 urlpatterns = [
     url(r'^$', UploadView.as_view(), name='home'),
-    url(r'^result/$', ResultView.as_view(), name='result')
+    url(r'^result/$', ResultView.as_view(), name='result'),
 
 ]

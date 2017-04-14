@@ -25,3 +25,11 @@ class Data(models.Model):
 
     def __unicode__(self):
         return str(self.amount) + ' ' + self.variable.name + ' ' + self.year.value
+
+
+class PDF(models.Model):
+    file = models.FileField(upload_to='pdf')
+    csv = models.FileField(upload_to='csv', null=True, default=None)
+
+    def __unicode__(self):
+        return self.file.url

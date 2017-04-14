@@ -1,7 +1,12 @@
 from django import forms
 
+from .models import PDF
 
-class UploadForm(forms.Form):
+
+class UploadForm(forms.ModelForm):
     query_variable = forms.CharField()
     query_year = forms.CharField()
-    file = forms.FileField()
+
+    class Meta:
+        model = PDF
+        fields = ('file',)

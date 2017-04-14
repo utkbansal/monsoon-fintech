@@ -5,7 +5,7 @@ from StringIO import StringIO
 
 from django.core.files.base import ContentFile
 from django.shortcuts import render
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView
 
 from .forms import UploadForm
 from .models import Year, Data
@@ -59,7 +59,3 @@ class UploadView(FormView):
         # print(data_objects)
 
         Data.objects.bulk_create(data_objects)
-
-
-class ResultView(TemplateView):
-    template_name = 'result.html'

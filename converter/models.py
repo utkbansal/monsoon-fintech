@@ -11,20 +11,13 @@ class Year(models.Model):
         return self.value
 
 
-class Variable(models.Model):
-    name = models.CharField(max_length=256)
-
-    def __unicode__(self):
-        return self.name
-
-
 class Data(models.Model):
-    amount = models.FloatField()
+    amount = models.CharField(max_length=256)
     year = models.ForeignKey(Year)
-    variable = models.ForeignKey(Variable)
+    variable = models.CharField(max_length=256)
 
     def __unicode__(self):
-        return str(self.amount) + ' ' + self.variable.name + ' ' + self.year.value
+        return str(self.amount) + ' ' + self.variable + ' ' + self.year.value
 
 
 class PDF(models.Model):
